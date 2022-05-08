@@ -1,0 +1,25 @@
+img{
+    width: 100px; 
+    margin-right: 20px;
+}
+h1{
+    color:white; 
+    font-size: 50px;
+}
+p{
+    color:white;
+}
+footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #664444;
+    color: white;
+    padding: 10px;
+}
+a{
+    text-decoration: none;
+    color: #664444;
+}
