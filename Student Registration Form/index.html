@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="main.css">
+  <link rel="icon" href="icon.png">
+  <title>Student Registaration Form</title>
+</head>
+
+<body>
+  <h2>Student Registaration Form</h2>
+  <form action="" method="post">
+    <div class="input-Size">
+      <div>
+        <label for="name">First Name:</label>
+        <input id="name" name="username" type="text" placeholder="Enter your first name" autofocus
+          style="margin-top: 20px;">
+      </div>
+      <div>
+        <label for="lastname">Last name:</label>
+        <input id="lastname" name="lastname" type="text" placeholder="Enter your last name">
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input id="email" name="email" type="email" placeholder="It should contain @.">
+      </div>
+      <div>
+        <label for="mobile">Mobile:</label>
+        <input id="mobile" name="mobile" type="text" placeholder="Only 10 digits are allowed." maxlength="10">
+      </div>
+      <div>
+        <label for="gender">Gender:</label>
+        <input name="gender" type="radio" style="width: 20px;">
+        <label for="gender" style="width: 50px;">Male</label>
+        <input name="gender" type="radio" style="width: 20px;">
+        <label for="gender">Female</label>
+      </div>
+      <div>
+        <label for="date">Date Of Birth:</label>
+        <input id="date" name="date" type="date">
+      </div>
+      <div>
+        <label for="address">Address:</label>
+        <textarea name="" id="" cols="69" rows="10"></textarea>
+      </div>
+      <div>
+        <label for="city">City:</label>
+        <input id="city" name="city" type="text">
+      </div>
+      <div>
+        <label for="pin">Area Pin:</label>
+        <input id="pin" name="pin" type="text">
+      </div>
+      <div>
+        <label for="state">State:</label>
+        <input id="state" name="state" type="text">
+      </div>
+      <div>
+        <label for="qualification">Qualification:</label>
+        <select id="qualification">
+          <option value="">Select Qualification:</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <label>Specialization:</label>
+      <div class="specialization">
+        <input type="checkbox" id="science" name="science" value="science">
+        <label for="science" style="width: auto;">Computer Science</label><br>
+        <input type="checkbox" id="technology" name="technology" value="technology">
+        <label for="technology">Information Technology</label><br>
+        <input type="checkbox" id="architecture" name="architecture" value="architecture">
+        <label for="architecture">Computer Architecture</label><br>
+        <input type="checkbox" id="communication" name="communication" value="communication">
+        <label for="communication">Tele Communication</label>
+      </div>
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input id="password" name="password" type="password" style="width: 507px; height: 25px;">
+    </div>
+    <input type="submit" value="Registered" class="sub-Button">
+  </form>
+</body>
+
+</html>
