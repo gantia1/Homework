@@ -1,0 +1,1 @@
+setInterval(function() { alert(new Date); }, 5000);
