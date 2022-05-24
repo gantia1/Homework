@@ -25,14 +25,6 @@ const rectangles = [{
     color: 'red'
 }];
 
-/*rectangles
-    .filter(
-        rectangles => {
-            if (rectangles.color == "green" || rectangles.color == "red") {
-                console.log(rectangles.id + " " + rectangles.width * rectangles.height);
-            }
-        }
-    )*/
 
 rectangles
     .filter((element) => element.color === "green" || element.color === "red")
