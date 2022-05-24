@@ -1,4 +1,5 @@
 const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+
 let words = text.split(" ");
 
 for (let i = 0; i < words.length; i++) {
@@ -6,3 +7,5 @@ for (let i = 0; i < words.length; i++) {
 }
 
 console.log(words.join(""));
+
+

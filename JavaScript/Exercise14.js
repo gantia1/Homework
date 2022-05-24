@@ -1,7 +1,7 @@
 function is_string(x) {
-    if (typeof(x)=="string") {
+    if (typeof (x) === "string") {
         return true;
-    }else{
+    } else {
         return false;
     }
 }

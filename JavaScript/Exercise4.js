@@ -25,10 +25,16 @@ const rectangles = [{
     color: 'red'
 }];
 
-rectangles.filter(
-    rectangles => {
-        if (rectangles.color == "green" || rectangles.color == "red") {
-            console.log(rectangles.id + " " + rectangles.width * rectangles.height);
+/*rectangles
+    .filter(
+        rectangles => {
+            if (rectangles.color == "green" || rectangles.color == "red") {
+                console.log(rectangles.id + " " + rectangles.width * rectangles.height);
+            }
         }
-    }
-)
+    )*/
+
+rectangles
+    .filter((element) => element.color === "green" || element.color === "red")
+    .map((element) => element.id + ': ' + element.width * element.height)
+    .forEach((result) => console.log(result));

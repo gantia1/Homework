@@ -25,8 +25,6 @@ const rectangles = [{
     color: 'red'
 }];
 
-rectangles.filter(
-    rectangles => {
-        console.log(rectangles.id + " " + rectangles.width * rectangles.height);
-    }
-)
+rectangles
+    .filter((element) => console.log(element.id + " " + element.width * element.height));
+
