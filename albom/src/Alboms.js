@@ -4,7 +4,7 @@ import { Card, Row, Col, Button, Modal } from 'react-bootstrap';
 
 
 function AlbomsCard({ data, onOpen }) {
-const {id, title} = data;
+    const { id, title } = data;
     const handleClick = () => {
         onOpen && onOpen(id);
     };
@@ -25,6 +25,7 @@ const {id, title} = data;
 function Alboms() {
     const [albom, setAlbom] = useState([]);
     const [show, setShow] = useState(false);
+    const [photos, setPhotos] = useState([]);
 
 
     useEffect(() => {
@@ -38,7 +39,19 @@ function Alboms() {
 
     const handleClose = () => {
         setShow(false);
-    }
+    };
+
+    const handleAlbomOpen = async (albomData) => {
+        setShow(true);
+        const { data } = await axios.get('https://jsonplaceholder.typicode.com/photos', {
+            params: {
+                id: albomData.id
+            }
+        });
+        setPhotos(data);
+    };
+
+
 
     return (
         <div>
@@ -46,7 +59,7 @@ function Alboms() {
                 {
                     albom.map((albom) => (
                         <Col lg={3} md={4} sm={6} key={albom.id}>
-                            <AlbomsCard data={albom} onOpen={(albomData) => setShow(true)} />
+                            <AlbomsCard data={albom} onOpen={handleAlbomOpen} />
                         </Col>
                     ))
                 }
@@ -55,7 +68,19 @@ function Alboms() {
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Body>
+                    {
+                        photos.map((photos) => (
+                            <Card>
+                                <Card.Body>
+                                    <p>ID: {photos.id}</p>
+                                    <p>{photos.title}</p>
+                                </Card.Body>
+                                <Card.Img style={{ height: "60%" }} src={photos.thumbnailUrl} />
+                            </Card>
+                        ))
+                    }
+                </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
