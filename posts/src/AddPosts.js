@@ -3,7 +3,7 @@ import { useState } from 'react';
 import axios from 'axios';
 
 
-function AddPost() {
+function AddPost(getDataFromServer) {
     const initialValues = {
         userId: '',
         title: '',
@@ -18,12 +18,12 @@ function AddPost() {
         setValues({ ...values, [name]: value })
     };
 
-    const add = async(event) => {
+    const add = async (event) => {
         event.preventDefault();
         const res = await axios.post('http://localhost:3000/posts', values);
         reset();
         alert('Post added!');
-        setValues(initialValues);
+        getDataFromServer();
         console.log(res.data);
     };
 
