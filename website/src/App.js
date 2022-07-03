@@ -1,13 +1,13 @@
 import './App.css';
 import AddPost from './posts/AddPost';
 import Posts from './posts/Posts';
-import Todo from './todo/Todo';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import { Alert, Container } from 'react-bootstrap';
 import ThemeContext from './components/ThemeContext';
+import Task from './todo/Task';
 
 
 function App() {
@@ -48,8 +48,8 @@ function App() {
                 element=
                 {
                   <>
-                    <AddPost getDataFromServer={getData()} />
-                    <Posts data={posts} getDataFromServer={getData()} />
+                    <AddPost getDataFromServer={getData} />
+                    <Posts data={posts} getDataFromServer={getData} />
                   </>
                 }
               />
@@ -62,7 +62,7 @@ function App() {
                   </Container>
                 }
               />
-              <Route path='todo' element={<Todo />} />
+              <Route path='todo' element={<Task />} />
             </Route>
           </Routes>
         </BrowserRouter>
