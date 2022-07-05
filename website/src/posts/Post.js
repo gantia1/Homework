@@ -4,7 +4,7 @@ import { Button, Container, Table } from 'react-bootstrap';
 import { XOctagon } from 'react-bootstrap-icons'
 import ThemeContext from '../components/ThemeContext';
 
-function Posts({ data = [], getDataFromServer }) {
+function Post({ data = [], getDataFromServer }) {
 
     const {theme} = useContext(ThemeContext);
 
@@ -19,7 +19,7 @@ function Posts({ data = [], getDataFromServer }) {
 
     return (
         <Container>
-            <Table striped bordered hover variant={theme} >
+            <Table striped bordered hover variant={theme}>
                 <thead>
                     <tr>
                         <th>userId</th>
@@ -29,23 +29,23 @@ function Posts({ data = [], getDataFromServer }) {
                         <th>Delete</th>
                     </tr>
                 </thead>
-                <tbody >
+                <tbody>
                     {
-                        data.map((posts) => (
-                            <tr>
-                                <td>{posts.userId}</td>
-                                <td>{posts.id}</td>
-                                <td>{posts.title}</td>
-                                <td>{posts.body}</td>
-                                <div>
+                        data.map((post) => (
+                            <tr key={post.id}>
+                                <td>{post.userId}</td>
+                                <td>{post.id}</td>
+                                <td>{post.title}</td>
+                                <td>{post.body}</td>
+                                <td>
                                     <Button
                                         size="lg"
                                         variant="link"
-                                        onClick={() => deletePost(posts.id)}
+                                        onClick={() => deletePost(post.id)}
                                     >
                                         <XOctagon className="text-danger"></XOctagon>
                                     </Button>
-                                </div>
+                                </td>
                             </tr>
                         ))
                     }
@@ -55,4 +55,4 @@ function Posts({ data = [], getDataFromServer }) {
     );
 }
 
-export default Posts;
+export default Post;

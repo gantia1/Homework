@@ -1,31 +1,18 @@
 import './App.css';
-import AddPost from './posts/AddPost';
-import Posts from './posts/Posts';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import { Alert, Container } from 'react-bootstrap';
 import ThemeContext from './components/ThemeContext';
-import Task from './todo/Task';
+import Tasks from './todo/Tasks';
+import PostsView from './posts/PostsView';
 
 
 function App() {
 
-  const [posts, setPosts] = useState([]);
   const [theme, setTheme] = useState('light');
 
 
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = () => {
-    axios.get('http://localhost:3030/posts')
-      .then(({ data }) => {
-        setPosts(data);
-      })
-  };
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <div className={`bg-${theme}`}>
@@ -42,16 +29,10 @@ function App() {
                     </Alert>
                   </Container>
                 }
-              />
-              <Route
+              /><Route
                 path='/posts'
                 element=
-                {
-                  <>
-                    <AddPost getDataFromServer={getData} />
-                    <Posts data={posts} getDataFromServer={getData} />
-                  </>
-                }
+                {<PostsView />}
               />
               <Route
                 path='*'
@@ -62,7 +43,7 @@ function App() {
                   </Container>
                 }
               />
-              <Route path='todo' element={<Task />} />
+              <Route path='todo' element={<Tasks />} />
             </Route>
           </Routes>
         </BrowserRouter>

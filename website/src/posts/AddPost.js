@@ -2,9 +2,7 @@ import { Form, Button, Row, Col, Container, InputGroup, FormControl } from 'reac
 import { useState } from 'react';
 import axios from 'axios';
 
-
-
-function AddPost(getDataFromServer) {
+function AddPost({getDataFromServer}) {
     const initialValues = {
         userId: '',
         title: '',

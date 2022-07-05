@@ -18,7 +18,7 @@ function Header() {
 
     return (
 
-        <Navbar bg={theme} variant={theme} expand="lg">
+        <Navbar bg={theme} variant={theme} expand="md">
             <Container>
                 <Navbar.Brand as={Link} to="/">Navbar</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
