@@ -1,8 +1,8 @@
 import { Form, Button, Row, Col, Container, InputGroup, FormControl } from 'react-bootstrap';
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../components/api';
 
-function AddPost({getDataFromServer}) {
+function AddPost({getDataFromServer, sendRequest}) {
     const initialValues = {
         userId: '',
         title: '',
@@ -19,11 +19,12 @@ function AddPost({getDataFromServer}) {
 
     const add = async (event) => {
         event.preventDefault();
-        const res = await axios.post('http://localhost:3030/posts', values);
-        reset();
-        alert('Post added!');
-        getDataFromServer();
-        console.log(res.data);
+        await sendRequest(async () => {
+            await api.post('/posts', values);
+            reset();
+            alert('Post added!');
+            getDataFromServer();
+        });
     };
 
     return (

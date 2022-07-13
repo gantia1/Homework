@@ -1,25 +1,30 @@
-import axios from 'axios';
 import { useContext } from 'react';
-import { Button, Container, Table } from 'react-bootstrap';
+import { Alert, Button, Container, Table } from 'react-bootstrap';
 import { XOctagon } from 'react-bootstrap-icons'
+import api from '../components/api';
 import ThemeContext from '../components/ThemeContext';
 
-function Post({ data = [], getDataFromServer }) {
+function Post({ data = [], getDataFromServer, sendRequest, error }) {
 
-    const {theme} = useContext(ThemeContext);
+    const { theme } = useContext(ThemeContext);
 
     const deletePost = async (id) => {
         const answer = window.confirm(`Are you sure you want to delete post ${id}?`);
         if (answer) {
-            await axios.delete(`http://localhost:3030/posts/${id}`);
-            alert(`Post ${id} has been deleted!`);
-            getDataFromServer();
+            await sendRequest(async () => {
+                await api.delete(`/posts/${id}`);
+                alert(`Post ${id} has been deleted!`);
+                getDataFromServer();
+            });
         }
     }
 
     return (
         <Container>
-            <Table striped bordered hover variant={theme}>
+            {
+                error && <Alert variant="danger">{error}</Alert>
+            }
+            <Table striped bordered hover variant={theme} size='sm'>
                 <thead>
                     <tr>
                         <th>userId</th>

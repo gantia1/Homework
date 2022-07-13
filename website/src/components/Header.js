@@ -1,12 +1,14 @@
 import { useContext } from "react";
-import { Navbar, Container, Nav, Form } from "react-bootstrap";
+import { Navbar, Container, Nav, Form, NavDropdown } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import ThemeContext from "./ThemeContext";
+import UserContext from "./UserContext";
 
 
 function Header() {
 
     const { theme, setTheme } = useContext(ThemeContext);
+    const { user } = useContext(UserContext);
 
     const handleChange = event => {
         if (event.target.checked) {
@@ -16,6 +18,10 @@ function Header() {
         }
     };
 
+    const logout = () => {
+        localStorage.removeItem('token');
+        window.location.reload();
+    }
     return (
 
         <Navbar bg={theme} variant={theme} expand="md">
@@ -32,7 +38,7 @@ function Header() {
                         <Nav.Link as={Link} to="/posts">Posts</Nav.Link>
                         <Nav.Link as={Link} to="/todo">Todos</Nav.Link>
                     </Nav>
-                    <Navbar.Text>
+                    <Navbar.Text className="me-5">
                         <Form className="d-flex">
                             <Form.Check
                                 onChange={handleChange}
@@ -41,7 +47,10 @@ function Header() {
                                 label="Dark"
                             />
                         </Form>
-                    </Navbar.Text>
+                    </Navbar.Text >
+                    <NavDropdown title={`Signed in as: ${user.username}`}>
+                        <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                    </NavDropdown>
                 </Navbar.Collapse>
             </Container>
         </Navbar >
@@ -49,6 +58,3 @@ function Header() {
 }
 
 export default Header;
-
-
-

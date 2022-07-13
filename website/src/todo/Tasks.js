@@ -1,8 +1,9 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Button, Container, Form, FormControl, InputGroup, ListGroup } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { Alert, Button, Container, Form, FormControl, InputGroup, ListGroup } from "react-bootstrap";
 import EditTaskModal from "./EditTaskModal";
 import { PlusCircleFill, Trash, PencilSquare } from 'react-bootstrap-icons';
+import LoadingContext from "../components/LoadingContext";
+import api from "../components/api";
 
 
 function TodoListItem({ task, doneTask, onDelete, onEdit }) {
@@ -29,8 +30,8 @@ function TodoListItem({ task, doneTask, onDelete, onEdit }) {
                     )
                 }
             </div>
-            <Button className="me-2" variant='outline'  onClick={handleEdit}><PencilSquare></PencilSquare></Button>
-            <Button variant='outline'  onClick={handleDelete}><Trash className="text-danger"></Trash></Button>
+            <Button className="me-2" variant='outline' onClick={handleEdit}><PencilSquare></PencilSquare></Button>
+            <Button variant='outline' onClick={handleDelete}><Trash className="text-danger"></Trash></Button>
         </ListGroup.Item>
     );
 }
@@ -39,43 +40,55 @@ function Tasks() {
     const [value, setValue] = useState('');
     const [tasks, setTasks] = useState([]);
     const [currentTask, setCurrentTask] = useState(null);
-
+    const { setLoading } = useContext(LoadingContext);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         getData().catch(console.log.error);
     }, []);
 
     const getData = async () => {
-        const { data } = await axios.get('http://localhost:3030/todos')
-        setTasks(data);
+        await sendRequest(async () => {
+            const { data } = await api.get('/todos')
+            setTasks(data);
+    });
     };
 
     const addNewTask = async (event) => {
         event.preventDefault();
-        await axios.post('http://localhost:3030/todos/', { text: value, done: false })
-        await getData();
-        setValue('');
+        await sendRequest(async () => {
+            await api.post('/todos/', { text: value, done: false })
+            await getData();
+            setValue('');
+        });
     };
 
     const toggleDone = (id) => async (event) => {
         const task = tasks.find((task) => task.id === id);
         task.done = event.target.checked;
-        await axios.put(`http://localhost:3030/todos/${id}`, task);
-        await getData();
+        await sendRequest(async () => {
+            await api.put(`/todos/${id}`, task);
+            await getData();
+        });
     };
 
     const deleteTask = async (task) => {
         const answer = window.confirm(`Are you sure you want to delete task ${task.text}?`)
         if (answer) {
-            await axios.delete(`http://localhost:3030/todos/${task.id}`);
-            await getData();
+            await sendRequest(async () => {
+                await api.delete(`/todos/${task.id}`);
+                await getData();
+            });
         }
     };
 
     const updateTask = async (updatedTask) => {
-        await axios.put(`http://localhost:3030/todos/${updatedTask.id}`, updatedTask);
-        await getData();
+        await sendRequest(async () => {
+            await api.put(`/todos/${updatedTask.id}`, updatedTask);
+            await getData();
+        });
     };
+    
     const openEditModal = (task) => {
         setCurrentTask(task)
     }
@@ -83,21 +96,36 @@ function Tasks() {
     const hideEditModal = () => {
         setCurrentTask(null);
     }
+    const sendRequest = async (callback) => {
+        setLoading(true);
+        setError('');
+        try {
+            await callback();
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <Container className='my-5'>
             <Form onSubmit={addNewTask}>
                 <InputGroup className="mb-3" size='md'>
                     <FormControl
+                        required
                         placeholder="Add new task"
                         value={value}
                         onChange={(event) => setValue(event.target.value)}
                     />
                     <Button variant="outline-success" type="submit"><PlusCircleFill></PlusCircleFill></Button>
                 </InputGroup>
+                {
+                    error && <Alert variant="danger">{error}</Alert>
+                }
             </Form>
             <ListGroup className="mb-3">
-            <ListGroup.Item variant="danger" className="text-center">Incomplete</ListGroup.Item>
+                <ListGroup.Item variant="danger" className="text-center">Incomplete</ListGroup.Item>
                 {
                     tasks.filter(task => !task.done).map((task) => (
                         <TodoListItem
@@ -111,7 +139,7 @@ function Tasks() {
                 }
             </ListGroup>
             <ListGroup>
-            <ListGroup.Item variant="success" className="text-center">Completed</ListGroup.Item>
+                <ListGroup.Item variant="success" className="text-center">Completed</ListGroup.Item>
                 {
                     tasks.filter(task => task.done).map((task) => (
                         <TodoListItem
@@ -124,7 +152,7 @@ function Tasks() {
                     ))
                 }
             </ListGroup>
-            
+
             <EditTaskModal
                 task={currentTask}
                 taskEdit={updateTask}
